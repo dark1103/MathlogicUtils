@@ -41,27 +41,27 @@ namespace TuringMachineApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            HashSet<string> data_items = new HashSet<string>(textBox_symbols.Text.Split(' '));
-            // for (int i = 0; i < dataGridView_data.RowCount - 1; i++)
+            List<string> text = MachineToText();
+            text[1] = textBox_symbols.Text;
+            MachineFromText(text.ToArray());
+
+            // HashSet<string> data_items = new HashSet<string>(textBox_symbols.Text.Split(' '));
+            //
+            // dataGrid_instuctions.ColumnCount = data_items.Count;
+            // dataGrid_instuctions.RowCount = dataGridView_states.RowCount - 1;
+
+            // var data_items_array = data_items.OrderBy(x => x).ToArray();
+            //
+            // for (int i = 0; i < data_items_array.Length; i++)
             // {
-            //     data_items.Add(dataGridView_data[0, i].Value.ToString());
+            //     dataGrid_instuctions.Columns[i].HeaderCell.Value = data_items_array[i];
+            //     dataGrid_instuctions.Columns[i].Name = data_items_array[i];
             // }
-
-            dataGrid_instuctions.ColumnCount = data_items.Count;
-            dataGrid_instuctions.RowCount = dataGridView_states.RowCount - 1;
-
-            var data_items_array = data_items.OrderBy(x=>x).ToArray();
-
-            for (int i = 0; i < data_items_array.Length; i++)
-            {
-                dataGrid_instuctions.Columns[i].HeaderCell.Value = data_items_array[i];
-                dataGrid_instuctions.Columns[i].Name = data_items_array[i];
-            }
-
-            for (int i = 0; i < dataGridView_states.RowCount - 1; i++)
-            {
-                dataGrid_instuctions.Rows[i].HeaderCell.Value = dataGridView_states[0, i].Value.ToString();
-            }
+            //
+            // for (int i = 0; i < dataGridView_states.RowCount - 1; i++)
+            // {
+            //     dataGrid_instuctions.Rows[i].HeaderCell.Value = dataGridView_states[0, i].Value.ToString();
+            // }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -234,7 +234,7 @@ namespace TuringMachineApp
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private List<string> MachineToText()
         {
             List<string> lines = new List<string>();
 
@@ -264,15 +264,16 @@ namespace TuringMachineApp
                 }
             }
 
-            File.WriteAllLines(textBox_filename.Text, lines);
+            return lines;
         }
 
-
-        public void LoadFromFile(string filename)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] lines = File.ReadAllLines(filename);
+            File.WriteAllLines(textBox_filename.Text, MachineToText());
+        }
 
-
+        private void MachineFromText(string[] lines)
+        {
             string[] start_end_states = lines[0].Split(';');
             textBox_startState.Text = start_end_states[0];
             textBox_endState.Text = start_end_states[1];
@@ -318,6 +319,13 @@ namespace TuringMachineApp
 
                 dataGrid_instuctions[coords[1], rowsDictionary[coords[0]]].Value = row[1] == "None" ? null : row[1];
             }
+        }
+
+
+        public void LoadFromFile(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+            MachineFromText(lines);
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
