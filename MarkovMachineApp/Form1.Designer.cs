@@ -41,10 +41,13 @@
             this.copyword_btn = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.status_lbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.last_instr_lbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressbar = new System.Windows.Forms.ToolStripProgressBar();
+            this.last_instr_lbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.pause_btn = new System.Windows.Forms.Button();
             this.stop_btn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.mark_check = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.delay_upDown)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -52,6 +55,8 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Instructions});
@@ -87,6 +92,8 @@
             // 
             // history
             // 
+            this.history.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.history.FormattingEnabled = true;
             this.history.Location = new System.Drawing.Point(544, 12);
             this.history.Name = "history";
@@ -95,6 +102,11 @@
             // 
             // delay_upDown
             // 
+            this.delay_upDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             this.delay_upDown.Location = new System.Drawing.Point(268, 72);
             this.delay_upDown.Maximum = new decimal(new int[] {
             100000,
@@ -173,16 +185,16 @@
             this.status_lbl.Size = new System.Drawing.Size(51, 17);
             this.status_lbl.Text = "Stopped";
             // 
-            // last_instr_lbl
-            // 
-            this.last_instr_lbl.Name = "last_instr_lbl";
-            this.last_instr_lbl.Size = new System.Drawing.Size(0, 17);
-            // 
             // progressbar
             // 
             this.progressbar.Maximum = 99;
             this.progressbar.Name = "progressbar";
             this.progressbar.Size = new System.Drawing.Size(100, 16);
+            // 
+            // last_instr_lbl
+            // 
+            this.last_instr_lbl.Name = "last_instr_lbl";
+            this.last_instr_lbl.Size = new System.Drawing.Size(0, 17);
             // 
             // pause_btn
             // 
@@ -204,11 +216,44 @@
             this.stop_btn.UseVisualStyleBackColor = true;
             this.stop_btn.Click += new System.EventHandler(this.stop_btn_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(268, 200);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "insert";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(349, 200);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "remove";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // mark_check
+            // 
+            this.mark_check.AutoSize = true;
+            this.mark_check.Location = new System.Drawing.Point(268, 127);
+            this.mark_check.Name = "mark_check";
+            this.mark_check.Size = new System.Drawing.Size(50, 17);
+            this.mark_check.TabIndex = 15;
+            this.mark_check.Text = "Mark";
+            this.mark_check.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.mark_check);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.stop_btn);
             this.Controls.Add(this.pause_btn);
             this.Controls.Add(this.statusStrip1);
@@ -223,7 +268,7 @@
             this.Controls.Add(this.word_textbox);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Markov 3000";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.delay_upDown)).EndInit();
             this.statusStrip1.ResumeLayout(false);
@@ -252,6 +297,9 @@
         private System.Windows.Forms.ToolStripProgressBar progressbar;
         private System.Windows.Forms.Button pause_btn;
         private System.Windows.Forms.Button stop_btn;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox mark_check;
     }
 }
 

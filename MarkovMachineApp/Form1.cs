@@ -24,6 +24,14 @@ namespace MarkovMachineApp
         private bool paused = false;
         private bool stopped = false;
 
+        private void ResetColor()
+        {
+            for (int i = 0; i < dataGridView1.RowCount-1; i++)
+            {
+                dataGridView1.Rows[i].DefaultCellStyle.BackColor = dataGridView1.DefaultCellStyle.BackColor;
+            }
+        }
+
         private void start_btn_Click(object sender, EventArgs e)
         {
             if (running)
@@ -33,6 +41,7 @@ namespace MarkovMachineApp
                 return;
             }
 
+            ResetColor();
             List<Instruction> instructions = new List<Instruction>();
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
             {
@@ -41,6 +50,7 @@ namespace MarkovMachineApp
                 if (str.Length < 2)
                 {
                     MessageBox.Show("Bad instruction: " + row, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 instructions.Add(new Instruction(str[0], str[1],str.Length == 3 && str[2] == "*"));
             }
@@ -63,8 +73,19 @@ namespace MarkovMachineApp
                         {
                             word_textbox.Text = m.Word;
                             delay = (int)delay_upDown.Value;
-                            history.Items.Insert(0, m.LastInstruction + ": " + m.Word);
-                            last_instr_lbl.Text = m.LastInstruction.ToString();
+                            if (m.LastInstructionIndex != -1)
+                            {
+                                history.Items.Insert(0, m.LastInstruction + ": " + m.Word);
+                                last_instr_lbl.Text = m.LastInstruction.ToString();
+
+                                dataGridView1.ClearSelection();
+                                dataGridView1.Rows[m.LastInstructionIndex].Selected = true;
+                                if (mark_check.Checked)
+                                {
+                                    dataGridView1.Rows[m.LastInstructionIndex].DefaultCellStyle.BackColor = Color.Lime;
+                                }
+                            }
+                           
 
                             if (progressbar.Value == progressbar.Maximum)
                             {
@@ -74,8 +95,6 @@ namespace MarkovMachineApp
                             {
                                 progressbar.Value += 33;
                             }
-
-                          
                         }));
 
                         Thread.Sleep(delay);
@@ -111,20 +130,34 @@ namespace MarkovMachineApp
             List<string> list = new List<string>();
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
             {
-                list.Add(dataGridView1[0, i].Value?.ToString() ?? "");
+                string row = dataGridView1[0, i].Value?.ToString() ?? "";
+
+                string[] split = row.Split(' ');
+                if (split.Length > 2 && split[2] == "*")
+                {
+                    list.Add(split[0] + " ->* " + split[1]);
+                }
+                else
+                {
+                    list.Add(split[0] + " -> " + split[1]);
+                }
             }
             File.WriteAllLines(file_textbox.Text, list);
         }
 
         private void load_btn_Click(object sender, EventArgs e)
         {
+            ResetColor();
             try
             {
                 string[] lines = File.ReadAllLines(file_textbox.Text);
                 dataGridView1.RowCount = lines.Length + 1;
                 for (var i = 0; i < lines.Length; i++)
                 {
-                    dataGridView1[0, i].Value = lines[i];
+                    bool finishing = lines[i].Contains(" ->* ");
+                    var split = lines[i].Split(new []{ " -> ", " ->* " }, StringSplitOptions.RemoveEmptyEntries);
+
+                    dataGridView1[0, i].Value = split[0] + " " + split[1] + (finishing ? " *" : "");
                 }
             }
             catch(Exception) { }
@@ -153,6 +186,34 @@ namespace MarkovMachineApp
         private void stop_btn_Click(object sender, EventArgs e)
         {
             stopped = true;
+            ResetColor();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ResetColor();
+            if (dataGridView1.SelectedCells.Count != 0)
+            {
+                int selected = dataGridView1.SelectedCells[0].RowIndex;
+                dataGridView1.RowCount++;
+                for (int i = dataGridView1.RowCount - 2; i >= selected + 1; i--)
+                {
+                    dataGridView1[0, i].Value = dataGridView1[0, i - 1].Value;
+                }
+
+                dataGridView1[0, selected].Value = "";
+            }
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ResetColor();
+            if (dataGridView1.SelectedCells.Count != 0 && dataGridView1.SelectedCells[0].RowIndex < dataGridView1.RowCount - 1)
+            {
+                int selected = dataGridView1.SelectedCells[0].RowIndex;
+                dataGridView1.Rows.RemoveAt(selected);
+            }
         }
     }
 }

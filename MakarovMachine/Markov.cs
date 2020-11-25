@@ -9,7 +9,8 @@ namespace MakarovMachine
     public class Markov
     {
         public List<Instruction> Instuctions;
-        public Instruction LastInstruction { get; protected set; }
+        public int LastInstructionIndex { get; protected set; }
+        public Instruction LastInstruction => LastInstructionIndex == -1 ? null : Instuctions[LastInstructionIndex];
         public Instruction CurrentInstuction => Current == -1 ? null : Instuctions[Current];
         public int Current { get; set; } = -1;
         public string Word { get; protected set; }
@@ -31,8 +32,10 @@ namespace MakarovMachine
                 throw new Exception("Machine is already running");
             }
 
+            LastInstructionIndex = -1;
             Word = input;
             Current = 0;
+            int k = 0;
             while (DoStep())
             {
                 callback?.Invoke(this);
@@ -63,7 +66,7 @@ namespace MakarovMachine
                     else
                     {
                         Word = Word.Substring(0, index) + ins.To + Word.Substring(index + ins.From.Length);
-                        LastInstruction = ins;
+                        LastInstructionIndex = Current;
                         if (ins.Finish)
                         {
                             Stop();
@@ -103,7 +106,7 @@ namespace MakarovMachine
 
         public override string ToString()
         {
-            return From + " -> " + To + (Finish ? " *" : "");
+            return From + " ->" + (Finish ? "* " : " ") + To;
         }
     }
 }
