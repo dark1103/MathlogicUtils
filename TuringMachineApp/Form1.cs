@@ -17,6 +17,8 @@ namespace TuringMachineApp
     {
         private Machine<string, string> machine;
         private bool pause = false;
+        private bool running = false;
+        private bool stop = false;
         public Form1()
         {
             InitializeComponent();
@@ -144,6 +146,8 @@ namespace TuringMachineApp
 
             Task.Run(() =>
             {
+                running = true;
+                stop = false;
                 try
                 {
                     while (pause)
@@ -153,6 +157,7 @@ namespace TuringMachineApp
 
                     machine?.Execute(values, current, x =>
                     {
+
                         while (pause)
                         {
                             Thread.Sleep(100);
@@ -190,7 +195,11 @@ namespace TuringMachineApp
                             history.Items.Insert(0, $"{x.State} {x.Current.Value}");
                         }));
                         Thread.Sleep(delay);
+
+                        return !stop;
                     });
+
+                    running = false;
                 }
                 catch (DataException ex)
                 {
@@ -317,7 +326,13 @@ namespace TuringMachineApp
 
                 string[] coords = row[0].Split(' ');
 
-                dataGrid_instuctions[coords[1], rowsDictionary[coords[0]]].Value = row[1] == "None" ? null : row[1];
+                if (rowsDictionary.ContainsKey(coords[0]))
+                {
+                    if (rowsDictionary.ContainsKey(coords[0]))
+                    {
+                        dataGrid_instuctions[coords[1], rowsDictionary[coords[0]]].Value = row[1] == "None" ? null : row[1];
+                    }
+                }
             }
         }
 
@@ -369,6 +384,11 @@ namespace TuringMachineApp
         private void runManyToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            stop = true;
         }
     }
 }

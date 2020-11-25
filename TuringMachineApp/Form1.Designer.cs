@@ -46,6 +46,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.textBox_filename = new System.Windows.Forms.TextBox();
             this.button_play = new System.Windows.Forms.Button();
             this.button_pause = new System.Windows.Forms.Button();
             this.numericUpDown_delay = new System.Windows.Forms.NumericUpDown();
@@ -66,7 +67,7 @@
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runManyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox_filename = new System.Windows.Forms.TextBox();
+            this.btn_stop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_instuctions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_states)).BeginInit();
@@ -94,7 +95,7 @@
             this.dataGrid_instuctions.Location = new System.Drawing.Point(0, 0);
             this.dataGrid_instuctions.Name = "dataGrid_instuctions";
             this.dataGrid_instuctions.RowHeadersWidth = 60;
-            this.dataGrid_instuctions.Size = new System.Drawing.Size(1130, 535);
+            this.dataGrid_instuctions.Size = new System.Drawing.Size(890, 535);
             this.dataGrid_instuctions.TabIndex = 0;
             // 
             // dataGridView_data
@@ -243,8 +244,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox_symbols);
-            this.splitContainer1.Size = new System.Drawing.Size(1629, 704);
-            this.splitContainer1.SplitterDistance = 1130;
+            this.splitContainer1.Size = new System.Drawing.Size(1284, 704);
+            this.splitContainer1.SplitterDistance = 890;
             this.splitContainer1.TabIndex = 21;
             // 
             // splitContainer2
@@ -260,6 +261,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.btn_stop);
             this.splitContainer2.Panel2.Controls.Add(this.textBox_filename);
             this.splitContainer2.Panel2.Controls.Add(this.button_play);
             this.splitContainer2.Panel2.Controls.Add(this.button_pause);
@@ -272,9 +274,18 @@
             this.splitContainer2.Panel2.Controls.Add(this.numericUpDown_current);
             this.splitContainer2.Panel2.Controls.Add(this.textBox_endState);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
-            this.splitContainer2.Size = new System.Drawing.Size(1130, 704);
+            this.splitContainer2.Size = new System.Drawing.Size(890, 704);
             this.splitContainer2.SplitterDistance = 535;
             this.splitContainer2.TabIndex = 16;
+            // 
+            // textBox_filename
+            // 
+            this.textBox_filename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_filename.Location = new System.Drawing.Point(700, 15);
+            this.textBox_filename.Name = "textBox_filename";
+            this.textBox_filename.Size = new System.Drawing.Size(142, 20);
+            this.textBox_filename.TabIndex = 19;
+            this.textBox_filename.Text = "machine.txt";
             // 
             // button_play
             // 
@@ -356,7 +367,7 @@
             this.label_value});
             this.statusStrip1.Location = new System.Drawing.Point(0, 709);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1629, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1284, 22);
             this.statusStrip1.TabIndex = 22;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -398,7 +409,7 @@
             this.runToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1629, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
             this.menuStrip1.TabIndex = 23;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -414,14 +425,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -436,7 +447,7 @@
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.renameToolStripMenuItem.Text = "Rename";
             this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
@@ -451,23 +462,25 @@
             // runManyToolStripMenuItem
             // 
             this.runManyToolStripMenuItem.Name = "runManyToolStripMenuItem";
-            this.runManyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runManyToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.runManyToolStripMenuItem.Text = "Run many";
             this.runManyToolStripMenuItem.Click += new System.EventHandler(this.runManyToolStripMenuItem_Click);
             // 
-            // textBox_filename
+            // btn_stop
             // 
-            this.textBox_filename.Location = new System.Drawing.Point(976, 12);
-            this.textBox_filename.Name = "textBox_filename";
-            this.textBox_filename.Size = new System.Drawing.Size(142, 20);
-            this.textBox_filename.TabIndex = 19;
-            this.textBox_filename.Text = "machine.txt";
+            this.btn_stop.Location = new System.Drawing.Point(804, 76);
+            this.btn_stop.Name = "btn_stop";
+            this.btn_stop.Size = new System.Drawing.Size(46, 23);
+            this.btn_stop.TabIndex = 20;
+            this.btn_stop.Text = "stop";
+            this.btn_stop.UseVisualStyleBackColor = true;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1629, 731);
+            this.ClientSize = new System.Drawing.Size(1284, 731);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.splitContainer1);
@@ -538,6 +551,7 @@
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runManyToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox_filename;
+        private System.Windows.Forms.Button btn_stop;
     }
 }
 

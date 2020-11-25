@@ -72,7 +72,7 @@ namespace TuringMachine
             return State;
         }
 
-        public void Execute(LinkedList<T> data = null, LinkedListNode<T> current = null, Action<Machine<T,D>> callback = null)
+        public void Execute(LinkedList<T> data = null, LinkedListNode<T> current = null, Func<Machine<T,D>, bool> callback = null)
         {
             Data = data;
 
@@ -97,7 +97,12 @@ namespace TuringMachine
             State = StartState;
             while (!DoStep().Equals(EndState))
             {
-                callback?.Invoke(this);
+                var res = callback?.Invoke(this);
+
+                if (res == false)
+                {
+                    break;
+                }
             }
 
             callback?.Invoke(this);
