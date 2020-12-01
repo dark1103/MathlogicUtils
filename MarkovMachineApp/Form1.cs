@@ -15,6 +15,7 @@ namespace MarkovMachineApp
 {
     public partial class Form1 : Form
     {
+        public const string EMPTY_CODE = "#_";
         public Form1()
         {
             InitializeComponent();
@@ -46,11 +47,19 @@ namespace MarkovMachineApp
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
             {
                 string row = dataGridView1[0, i].Value?.ToString() ?? "";
-                string[] str = row.Split(' ');
+                string[] str = row.Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (str.Length < 2)
                 {
                     MessageBox.Show("Bad instruction: " + row, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+
+                for (int j = 0; j < 2; j++)
+                {
+                    if (str[j] == EMPTY_CODE)
+                    {
+                        str[j] = "";
+                    }
                 }
                 instructions.Add(new Instruction(str[0], str[1],str.Length == 3 && str[2] == "*"));
             }
@@ -135,11 +144,11 @@ namespace MarkovMachineApp
                 string[] split = row.Split(' ');
                 if (split.Length > 2 && split[2] == "*")
                 {
-                    list.Add(split[0] + " ->* " + split[1]);
+                    list.Add(split[0] + " →∙ " + split[1]);
                 }
                 else
                 {
-                    list.Add(split[0] + " -> " + split[1]);
+                    list.Add(split[0] + " → " + split[1]);
                 }
             }
             File.WriteAllLines(file_textbox.Text, list);
@@ -154,8 +163,8 @@ namespace MarkovMachineApp
                 dataGridView1.RowCount = lines.Length + 1;
                 for (var i = 0; i < lines.Length; i++)
                 {
-                    bool finishing = lines[i].Contains(" ->* ");
-                    var split = lines[i].Split(new []{ " -> ", " ->* " }, StringSplitOptions.RemoveEmptyEntries);
+                    bool finishing = lines[i].Contains(" →∙ ") || lines[i].Contains(" ->* ");
+                    var split = lines[i].Split(new []{ " → ", " →∙ ", " -> ", " ->* " }, StringSplitOptions.RemoveEmptyEntries);
 
                     dataGridView1[0, i].Value = split[0] + " " + split[1] + (finishing ? " *" : "");
                 }

@@ -49,42 +49,23 @@ namespace MakarovMachine
         {
             if (Current != -1)
             {
-                bool full = false;
-                int index;
-                do
+                Current = -1;
+                for (int i = 0; i < Instuctions.Count; i++)
                 {
-                    if (Current == 0)
+                    Instruction ins = Instuctions[i];
+                    int index = Word.IndexOf(ins.From, StringComparison.Ordinal);
+                    if (index != -1)
                     {
-                        full = true;
-                    }
-                    Instruction ins = Instuctions[Current];
-                    index = Word.IndexOf(ins.From, StringComparison.Ordinal);
-                    if (index == -1)
-                    {
-                        Current++;
-                    }
-                    else
-                    {
+                        Current = i;
                         Word = Word.Substring(0, index) + ins.To + Word.Substring(index + ins.From.Length);
                         LastInstructionIndex = Current;
                         if (ins.Finish)
                         {
                             Stop();
                         }
+                        break;
                     }
-
-                    if (Current == Instuctions.Count)
-                    {
-                        if (full)
-                        {
-                            Stop();
-                        }
-                        else
-                        {
-                            Current = 0;
-                        }
-                    }
-                } while (index == -1 && Current != -1);
+                }
             }
 
             return Current != -1;
