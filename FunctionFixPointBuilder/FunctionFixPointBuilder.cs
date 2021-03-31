@@ -12,19 +12,18 @@ namespace FunctionFixPointBuilder
         public delegate object InvokeDelegate(ITuple data, int level, string funNumber);
         public delegate object FixPointDelegate(ITuple data, int level, InvokeDelegate invoker);
 
-        private FixPointDelegate emptyFunction = (data, level, funcSupplier) => null;
 
-        private Dictionary<string, FixPointDelegate> defaultFunctions = new Dictionary<string, FixPointDelegate>();
+        private Dictionary<string, FixPointDelegate> functions = new Dictionary<string, FixPointDelegate>();
 
 
         public void SetFunction(FixPointDelegate func)
         {
-            defaultFunctions = new Dictionary<string, FixPointDelegate>(){{"F", func}};
+            functions = new Dictionary<string, FixPointDelegate>(){{"F", func}};
         }
 
         public void SetFunctions(Dictionary<string, FixPointDelegate> func)
         {
-            defaultFunctions = func;
+            functions = func;
         }
 
         public object Invoke(ITuple data, int level, string funcNumber = "F")
@@ -35,7 +34,7 @@ namespace FunctionFixPointBuilder
             }
             else
             {
-                return defaultFunctions[funcNumber](data, level - 1, Invoke);
+                return functions[funcNumber](data, level - 1, Invoke);
             }
         }
 
