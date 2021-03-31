@@ -297,7 +297,7 @@
             this.Controls.Add(this.btn_run);
             this.Controls.Add(this.table_instructions);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "InfRegMachine";
             ((System.ComponentModel.ISupportInitialize)(this.table_instructions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table_registers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_delay)).EndInit();
